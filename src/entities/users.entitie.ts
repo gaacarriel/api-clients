@@ -4,8 +4,10 @@ import {
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
-    BeforeInsert
+    BeforeInsert,
+    OneToMany
 } from "typeorm";
+import Contact from "./contacts.entitie";
 
 @Entity("users")
 class User {
@@ -26,6 +28,9 @@ class User {
 
     @CreateDateColumn()
     created_at: Date;
+
+    @OneToMany(() => Contact, contact => contact.user)
+    contacts: Contact[]
 
     @BeforeInsert()
     hashPassword() {
