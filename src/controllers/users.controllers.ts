@@ -18,10 +18,10 @@ export const listUsersController = async (req: Request, res: Response) => {
 };
 
 export const retrieveUserController = async (req: Request, res: Response) => {
-    const userId = req.params.user_id
-    const user = await retrieveUserService(userId)
-    return res.status(200).json(user)
-}
+    const userId = req.params.user_id;
+    const user = await retrieveUserService(userId);
+    return res.status(200).json(user);
+};
 
 export const updateUserController = async (req: Request, res: Response) => {
     const userId = req.params.user_id;
