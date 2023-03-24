@@ -3,7 +3,7 @@ import {
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
-    ManyToOne
+    ManyToOne,
 } from "typeorm";
 import User from "./users.entitie";
 
@@ -24,8 +24,8 @@ class Contact {
     @CreateDateColumn()
     created_at: Date;
 
-    @ManyToOne(() => User)
-    user: User
+    @ManyToOne(() => User, (user) => user.contacts, { onDelete: "CASCADE" })
+    user: User;
 }
 
 export default Contact;

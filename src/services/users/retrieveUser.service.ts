@@ -6,7 +6,10 @@ import { newUserSchemaRes } from "../../seriliazers/users.serializers";
 const retrieveUserService = async (userId) => {
     const userReposiroty = AppDataSource.getRepository(User);
 
-    const user = await userReposiroty.findOneBy({ id: userId });
+    const user = await userReposiroty.findOne({
+        where: { id: userId },
+        relations: { contacts: true },
+    });
 
     if (!user) {
         throw new AppError("User not found", 404);
@@ -16,7 +19,7 @@ const retrieveUserService = async (userId) => {
         stripUnknown: true,
     });
 
-    return userValidated
+    return userValidated;
 };
 
 export default retrieveUserService;

@@ -1,17 +1,17 @@
-import AppDataSource from "../../data-source"
-import User from "../../entities/users.entitie"
-import { usersArraySchema } from "../../seriliazers/users.serializers"
+import AppDataSource from "../../data-source";
+import User from "../../entities/users.entitie";
+import { usersArraySchema } from "../../seriliazers/users.serializers";
 
 const listUsersService = async () => {
-    const userReposiroty = AppDataSource.getRepository(User)
+    const userReposiroty = AppDataSource.getRepository(User);
 
-    const users = await userReposiroty.find()
+    const users = await userReposiroty.find({ relations: { contacts: true } });
 
     const usersResp = await usersArraySchema.validate(users, {
         stripUnknown: true,
     });
 
-    return usersResp
-}
+    return usersResp;
+};
 
-export default listUsersService
+export default listUsersService;
