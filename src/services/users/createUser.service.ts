@@ -1,15 +1,28 @@
 import { IUserRequest, IUserResponse } from "../../interfaces/users.interface";
+import User from "../../entities/users.entitie";
+import AppDataSource from "../../data-source";
+import AppError from "../../errors/AppError";
+import { newUserSchemaRes } from "../../seriliazers/users.serializers";
 
-const createUserService = (body: IUserRequest): IUserResponse => {
-    console.log(body);
+const createUserService = async (userData: IUserRequest) => {
+    const userRepository = AppDataSource.getRepository(User)
 
-    return {
-        id: "1",
-        name: body.name,
-        email: body.email,
-        phone: body.phone,
-        created_at: "12/12/12",
-    };
+    const userAlreadyExisting = await userRepository.findOneBy({
+        email: userData.email,
+    });
+
+    if (userAlreadyExisting) {
+        throw new AppError("Email already registred", 409);
+    }
+
+    const newUser = userRepository.create(userData);
+    await userRepository.save(newUser);
+
+    const newUserResp = await newUserSchemaRes.validate(newUser, {
+        stripUnknown: true,
+    });
+
+    return newUserResp;
 };
 
 export default createUserService;

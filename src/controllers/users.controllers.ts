@@ -1,25 +1,32 @@
 import { Request, Response } from "express";
-import { IUserRequest, IUserResponse } from "../interfaces/users.interface";
+import { IUserRequest } from "../interfaces/users.interface";
 import createUserService from "../services/users/createUser.service";
 import deleteUserService from "../services/users/deleteUser.service";
 import listUsersService from "../services/users/listUsers.service";
+import retrieveUserService from "../services/users/retrieveUser.service";
 import updateUserService from "../services/users/updateUser.service";
 
-export const createUserController = (req: Request, res: Response) => {
+export const createUserController = async (req: Request, res: Response) => {
     const body: IUserRequest = req.body;
-    const newUser: IUserResponse = createUserService(body);
+    const newUser = await createUserService(body);
     return res.status(201).json(newUser);
 };
 
-export const listUsersController = (req: Request, res: Response) => {
-    const users: IUserResponse[] = listUsersService();
+export const listUsersController = async (req: Request, res: Response) => {
+    const users = await listUsersService();
     return res.status(200).json(users);
 };
 
-export const updateUserController = (req: Request, res: Response) => {
+export const retrieveUserController = async (req: Request, res: Response) => {
+    const userId = req.params.user_id
+    const user = await retrieveUserService(userId)
+    return res.status(200).json(user)
+}
+
+export const updateUserController = async (req: Request, res: Response) => {
     const userId = req.params.user_id;
     const body = req.body;
-    const updatedUser = updateUserService(userId, body);
+    const updatedUser = await updateUserService(userId, body);
     return res.status(200).json(updatedUser);
 };
 

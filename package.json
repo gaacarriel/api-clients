@@ -6,15 +6,25 @@
     "author": "Gabriel Carriel <ga123carriel2015@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "dev": "ts-node-dev --ignore-watch node_modules src/app.ts"
+        "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
+        "typeorm": "typeorm-ts-node-commonjs"
     },
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
-        "typeorm": "0.3.6"
+        "express-async-errors": "^3.1.1",
+        "jsonwebtoken": "^9.0.0",
+        "pg": "^8.10.0",
+        "reflect-metadata": "^0.1.13",
+        "typeorm": "0.3.6",
+        "yup": "^1.0.2"
     },
     "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
         "@types/express": "^4.17.17",
+        "@types/jsonwebtoken": "^9.0.1",
+        "@types/yup": "^0.32.0",
         "ts-node-dev": "^2.0.0",
         "typescript": "^5.0.2"
     }
