@@ -10,6 +10,12 @@ export interface IUserResponse extends IUserRequest{
     created_at: string  
 }
 
+export interface IUserRequestUpdate {
+    name?: string
+    email?: string
+    phone?: string
+}
+
 export interface IUserLogin {
     email: string
     password: string

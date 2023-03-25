@@ -3,7 +3,7 @@ import User from "../../entities/users.entitie";
 import AppError from "../../errors/AppError";
 import { newUserSchemaRes } from "../../seriliazers/users.serializers";
 
-const retrieveUserService = async (userId) => {
+const retrieveUserService = async (userId: string): Promise<User> => {
     const userReposiroty = AppDataSource.getRepository(User);
 
     const user = await userReposiroty.findOne({

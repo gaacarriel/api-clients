@@ -5,7 +5,10 @@ import AppError from "../../errors/AppError";
 import jwt from "jsonwebtoken";
 import { IUserLogin } from "../../interfaces/users.interface";
 
-const loginService = async ({ email, password }: IUserLogin) => {
+const loginService = async ({
+    email,
+    password,
+}: IUserLogin): Promise<string> => {
     const userRepository = AppDataSource.getRepository(User);
 
     const user = await userRepository.findOneBy({ email: email });
@@ -23,7 +26,7 @@ const loginService = async ({ email, password }: IUserLogin) => {
     const token = jwt.sign(
         {
             phone: user.phone,
-            contacts: user.contacts
+            contacts: user.contacts,
         },
         process.env.SECRET_KEY,
         {
@@ -32,7 +35,7 @@ const loginService = async ({ email, password }: IUserLogin) => {
         }
     );
 
-    return token
+    return token;
 };
 
 export default loginService;

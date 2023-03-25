@@ -1,12 +1,14 @@
 import AppDataSource from "../../data-source";
 import User from "../../entities/users.entitie";
-import AppError from "../../errors/AppError";
 import { newUserSchemaRes } from "../../seriliazers/users.serializers";
 
-const updateUserService = async (user_id, body) => {
+const updateUserService = async (
+    userId: string,
+    body: IContactUpdate
+): Promise<User> => {
     const userRepository = AppDataSource.getRepository(User);
 
-    const user = await userRepository.findOneBy({ id: user_id });
+    const user = await userRepository.findOneBy({ id: userId });
 
     const updatedUser = userRepository.create({
         ...user,

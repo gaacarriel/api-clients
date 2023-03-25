@@ -14,19 +14,19 @@ class User {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({ length: 60 })
+    @Column({ length: 60, type: "string" })
     name: string;
 
-    @Column({ length: 60, unique: true })
+    @Column({ length: 60, unique: true, type: "string"})
     email: string;
 
-    @Column()
+    @Column({type: "string"})
     password: string;
 
-    @Column()
+    @Column({type: "string"})
     phone: string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({type: "datetime"})
     created_at: Date;
 
     @OneToMany(() => Contact, (contact) => contact.user)

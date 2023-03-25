@@ -3,7 +3,10 @@ import Contact from "../../entities/contacts.entitie";
 import User from "../../entities/users.entitie";
 import AppError from "../../errors/AppError";
 
-const createContactService = async (body, user_id: string) => {
+const createContactService = async (
+    body: IContactReq,
+    user_id: string
+): Promise<Contact> => {
     const userRepository = AppDataSource.getRepository(User);
     const contactRepository = AppDataSource.getRepository(Contact);
 
@@ -18,16 +21,16 @@ const createContactService = async (body, user_id: string) => {
     const user = await userRepository.findOneBy({ id: user_id });
 
     if (!user) {
-        throw new AppError("User not found", 404)
+        throw new AppError("User not found", 404);
     }
 
     const newContact = contactRepository.create({
         ...body,
-        user
-    })
-    await contactRepository.save(newContact)
+        user,
+    });
+    await contactRepository.save(newContact);
 
-    return newContact
+    return newContact;
 };
 
 export default createContactService;

@@ -4,8 +4,8 @@ import AppDataSource from "../../data-source";
 import AppError from "../../errors/AppError";
 import { newUserSchemaRes } from "../../seriliazers/users.serializers";
 
-const createUserService = async (userData: IUserRequest) => {
-    const userRepository = AppDataSource.getRepository(User)
+const createUserService = async (userData: IUserRequest): Promise<User> => {
+    const userRepository = AppDataSource.getRepository(User);
 
     const userAlreadyExisting = await userRepository.findOneBy({
         email: userData.email,

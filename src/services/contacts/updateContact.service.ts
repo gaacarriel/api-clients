@@ -1,11 +1,13 @@
 import AppDataSource from "../../data-source";
 import Contact from "../../entities/contacts.entitie";
-import AppError from "../../errors/AppError";
 
-const updateContactService = async (user_id, body) => {
+const updateContactService = async (
+    contactId: string,
+    body: IContactUpdate
+): Promise<Contact> => {
     const contactRepository = AppDataSource.getRepository(Contact);
 
-    const contact = await contactRepository.findOneBy({ id: user_id });
+    const contact = await contactRepository.findOneBy({ id: contactId });
 
     const updatedContact = contactRepository.create({
         ...contact,

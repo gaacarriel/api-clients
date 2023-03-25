@@ -2,7 +2,7 @@ import AppDataSource from "../../data-source";
 import Contact from "../../entities/contacts.entitie";
 import { contactArraySchema } from "../../seriliazers/contacts.serializers";
 
-const listContactsService = async (userId) => {
+const listContactsService = async (userId: string): Promise<Contact[]> => {
     const contactReposiroty = AppDataSource.getRepository(Contact);
 
     const contacts = await contactReposiroty.find({
