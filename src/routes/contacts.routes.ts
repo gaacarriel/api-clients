@@ -26,6 +26,7 @@ contactRoutes.get("", checkAuthMiddleware, listContactsController);
 contactRoutes.get(
     "/:contact_id",
     checkAuthMiddleware,
+    checkContactMiddleware,
     retrieveContactController
 );
 contactRoutes.patch(

@@ -1,0 +1,578 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de gerenciamento de contatos",
+        "description": "Essa API tem como objetivo o facil gerenciamento de contatos, nela você pode cadastrar, atualizar e deletar seus contatos.",
+        "contact": {
+            "email": "ga123carriel2015@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Url para testes locais"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "summary": "Cria um usuário",
+                "description": "Para essa rota de criação de usuário, é necessário enviar um 'name', 'email', 'password' e 'phone' no corpo da requisição, todos esses campos são OBRIGATÓRIOS. Com os dados certos e válidos, um usuário é criado e retornado, com alguns campos adicionados, como: 'id', 'created_at', e um array armazenando os contatos desse usuário.",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Invalid data"
+                    },
+                    "409": {
+                        "description": "Email already registred"
+                    },
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Busca os usuários",
+                "description": "Essa rota não recebe nenhum dado no corpo da requisição, por hora ela traz todos os usuários que ja são cadastrados na API. Essa rota pode ser acessada por qualquer pessoa.",
+                "tags": ["Users"],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponseGet"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "summary": "Busca um usuário pelo ID",
+                "description": "Essa rota recebe um ID de um usuário pela URL e procura o usuário que contenha o mesmo ID e o retorna, se não encontrado, retorna um erro 404. ",
+                "tags": ["Users"],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Altera um usuário pelo ID",
+                "description": "Para essa requisição, você pode alterar o 'name', 'email' ou 'phone' do usuário, passando para o corpo da requisição. Essa rota recebe um ID pela URL, busca e atualiza o usuário, se não encontrado, retorna um erro 404. Essa rota é protegida, necessita de token de login.",
+                "tags": ["Users"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid token"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "403": {
+                        "description": "Permission needed"
+                    },
+                    "401": {
+                        "description": "Invalid data"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deleta um usuário pelo ID",
+                "description": "Essa rota recebe um ID pela URL, busca o usuário referente ao ID, se encontra, o deleta, se não, retorna um erro 404. Essa rota é protegida, necessita de um token de login.",
+                "tags": ["Users"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid token"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "403": {
+                        "description": "Permission needed"
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "item": "{}"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Efetua o login do usuário",
+                "description": "Essa rota recebe um email e uma senha no corpo da requisição, verifica se os dados são válidos, se forem, retorna um token para acessar as rotas protegidas.",
+                "tags": ["Login"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "email": "usertest@gmail.com",
+                                        "password": "1234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Invalid data"
+                    },
+                    "403": {
+                        "description": "Email or password invalid"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contacts": {
+            "post": {
+                "summary": "Cadastra um contato ao usuário logado",
+                "description": "Essa rota recebe um 'name', 'email' e 'phone' no corpo da requisição e cadastra um novo contato vinculado ao usuário logado. Essa rota é protegida e necessita de um token de login.",
+                "tags": ["Contacts"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Contact"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "name": "new contact",
+                                        "email": "user@gmail.com",
+                                        "phone": "71444455555"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid token"
+                    },
+                    "401": {
+                        "description": "Invalid data"
+                    },
+                    "409": {
+                        "description": "Email already registred"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ContactResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Busca os contatos cadastrados do usuario logado",
+                "description": "Essa rota busca todos os contatos cadastrados vinculados ao usuário logado. Essa rota é protegida e necessita de um token de login.",
+                "tags": ["Contacts"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ContactResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contacts/{contact_id}": {
+            "get": {
+                "summary": "Busca um contato por ID",
+                "description": "Essa rota é responsavel por buscar um único contato pelo ID. Ela recebe um id pela URL, busca o contato específico e o retorna, só é possivel buscar um contato que esteja relacionado com o usuário logado.",
+                "tags": ["Contacts"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Contact not found"
+                    },
+                    "403": {
+                        "description": "Permission needed"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ContactResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Altera um contato pelo ID",
+                "description": "Essa rota recebe um 'name', 'email' ou 'phone' no corpo da requisição e um ID pela URL, e atualiza o contato especifico. Essa rota é protegida e necessita de um token de login",
+                "tags": ["Contacts"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "name": "User Test PATCHED"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid token"
+                    },
+                    "404": {
+                        "description": "Contact not found"
+                    },
+                    "403": {
+                        "description": "Permission needed"
+                    },
+                    "401": {
+                        "description": "Invalid data"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ContactResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deleta um contato pelo ID",
+                "description": "Essa rota recebe um ID pela URL, busca-o e o deleta se encontrado, se não encontrado, retorna um erro 404.",
+                "tags": ["Contacts"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid token"
+                    },
+                    "404": {
+                        "description": "Contact not found"
+                    },
+                    "403": {
+                        "description": "Permission needed"
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "item": "{}"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "types": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserResponse": {
+                "types": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "Date"
+                    },
+                    "contacts": {
+                        "type": "Array"
+                    }
+                }
+            },
+            "UserResponseGet": {
+                "types": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "Date"
+                    }
+                }
+            },
+            "Login": {
+                "types": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginResponse": {
+                "types": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Contact": {
+                "types": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ContactResponse": {
+                "types": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "Date"
+                    }
+                }
+            },
+            "ContactResponseGet": {
+                "types": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "Date"
+                    },
+                    "user": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/UserResponseGet"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
