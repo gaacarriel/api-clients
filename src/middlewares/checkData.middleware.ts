@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { AnySchema } from "yup";
 
 const checkDataMiddleware =
     (schema) =>

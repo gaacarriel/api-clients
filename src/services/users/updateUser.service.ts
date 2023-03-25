@@ -8,10 +8,6 @@ const updateUserService = async (user_id, body) => {
 
     const user = await userRepository.findOneBy({ id: user_id });
 
-    if (!user) {
-        throw new AppError("User not found", 404);
-    }
-
     const updatedUser = userRepository.create({
         ...user,
         ...body,

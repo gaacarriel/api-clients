@@ -5,7 +5,7 @@ import { usersArraySchema } from "../../seriliazers/users.serializers";
 const listUsersService = async () => {
     const userReposiroty = AppDataSource.getRepository(User);
 
-    const users = await userReposiroty.find({ relations: { contacts: true } });
+    const users = await userReposiroty.find();
 
     const usersResp = await usersArraySchema.validate(users, {
         stripUnknown: true,
