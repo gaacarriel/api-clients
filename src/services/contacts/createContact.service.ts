@@ -2,6 +2,7 @@ import AppDataSource from "../../data-source";
 import Contact from "../../entities/contacts.entitie";
 import User from "../../entities/users.entitie";
 import AppError from "../../errors/AppError";
+import { IContactReq } from "../../interfaces/contacts.interface";
 
 const createContactService = async (
     body: IContactReq,

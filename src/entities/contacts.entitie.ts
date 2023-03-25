@@ -12,16 +12,16 @@ class Contact {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({ length: 60, type: "string" })
+    @Column({ length: 60 })
     name: string;
 
-    @Column({ length: 60, unique: true, type: "string" })
+    @Column({ length: 60, unique: true })
     email: string;
 
-    @Column({type: "string"})
+    @Column({})
     phone: string;
 
-    @CreateDateColumn({type: "datetime"})
+    @CreateDateColumn({})
     created_at: Date;
 
     @ManyToOne(() => User, (user) => user.contacts, { onDelete: "CASCADE" })

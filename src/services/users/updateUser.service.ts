@@ -1,10 +1,11 @@
 import AppDataSource from "../../data-source";
 import User from "../../entities/users.entitie";
+import { IUserRequestUpdate } from "../../interfaces/users.interface";
 import { newUserSchemaRes } from "../../seriliazers/users.serializers";
 
 const updateUserService = async (
     userId: string,
-    body: IContactUpdate
+    body: IUserRequestUpdate
 ): Promise<User> => {
     const userRepository = AppDataSource.getRepository(User);
 

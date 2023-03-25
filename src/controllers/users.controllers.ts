@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import User from "../entities/users.entitie";
-import { IUserRequest } from "../interfaces/users.interface";
+import {
+    IUserRequest,
+    IUserRequestUpdate,
+} from "../interfaces/users.interface";
 import createUserService from "../services/users/createUser.service";
 import deleteUserService from "../services/users/deleteUser.service";
 import listUsersService from "../services/users/listUsers.service";
@@ -26,7 +29,7 @@ export const retrieveUserController = async (req: Request, res: Response) => {
 
 export const updateUserController = async (req: Request, res: Response) => {
     const userId: string = req.params.user_id;
-    const body: IContactUpdate = req.body;
+    const body: IUserRequestUpdate = req.body;
     const updatedUser: User = await updateUserService(userId, body);
     return res.status(200).json(updatedUser);
 };

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Contact from "../entities/contacts.entitie";
+import { IContactReq, IContactUpdate } from "../interfaces/contacts.interface";
 import createContactService from "../services/contacts/createContact.service";
 import deleteContactService from "../services/contacts/deleteContact.service";
 import listContactsService from "../services/contacts/listContacts.service";
