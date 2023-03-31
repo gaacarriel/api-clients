@@ -12,13 +12,13 @@ class Contact {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({ length: 60, type: "string" })
+    @Column({ length: 60, type: "character" })
     name: string;
 
-    @Column({ length: 60, unique: true, type: "string" })
+    @Column({ length: 60, unique: true, type: "character" })
     email: string;
 
-    @Column({ type: "string" })
+    @Column({ type: "character" })
     phone: string;
 
     @CreateDateColumn({ type: "date" })
