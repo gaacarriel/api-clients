@@ -1,5 +1,5 @@
 import AppDataSource from "../../data-source";
-import Contact from "../../entities/contacts.entitie";
+import Contact from "../../entities/contacts";
 import AppError from "../../errors/AppError";
 
 const retrieveContactService = async (contactId: string): Promise<Contact> => {

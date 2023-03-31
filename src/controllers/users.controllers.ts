@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import User from "../entities/users.entitie";
+import User from "../entities/users";
 import {
     IUserRequest,
     IUserRequestUpdate,

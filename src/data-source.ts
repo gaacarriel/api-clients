@@ -19,10 +19,8 @@ const AppDataSource = new DataSource(
               database: process.env.PGDATABASE,
               logging: true,
               synchronize: false,
-              entities: [path.join(__dirname, "./entities/**.entitie.{js,ts}")],
-              migrations: [
-                  path.join(__dirname, "./migrations/**.entitie.{js,ts}"),
-              ],
+              entities: [path.join(__dirname, "./entities/**.{js,ts}")],
+              migrations: [path.join(__dirname, "./migrations/**.{js,ts}")],
           }
 );
 

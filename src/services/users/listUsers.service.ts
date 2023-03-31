@@ -1,5 +1,5 @@
 import AppDataSource from "../../data-source";
-import User from "../../entities/users.entitie";
+import User from "../../entities/users";
 import { usersArraySchema } from "../../seriliazers/users.serializers";
 
 const listUsersService = async (): Promise<User[]> => {

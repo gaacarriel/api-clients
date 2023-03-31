@@ -1,5 +1,5 @@
 import AppDataSource from "../../data-source";
-import Contact from "../../entities/contacts.entitie";
+import Contact from "../../entities/contacts";
 import { IContactUpdate } from "../../interfaces/contacts.interface";
 
 const updateContactService = async (

@@ -1,5 +1,5 @@
 import AppDataSource from "../../data-source";
-import Contact from "../../entities/contacts.entitie";
+import Contact from "../../entities/contacts";
 import { contactArraySchema } from "../../seriliazers/contacts.serializers";
 
 const listContactsService = async (userId: string): Promise<Contact[]> => {

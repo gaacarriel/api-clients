@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { Request, Response, NextFunction } from "express";
 import AppDataSource from "../data-source";
-import User from "../entities/users.entitie";
+import User from "../entities/users";
 import AppError from "../errors/AppError";
 
 const checkOnwerMiddleware = async (
@@ -11,7 +11,7 @@ const checkOnwerMiddleware = async (
 ) => {
     const userRepository = AppDataSource.getRepository(User);
 
-    if (!await userRepository.findOneBy({ id: req.params.user_id })) {
+    if (!(await userRepository.findOneBy({ id: req.params.user_id }))) {
         throw new AppError("User not found", 404);
     }
 

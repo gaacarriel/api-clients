@@ -1,5 +1,5 @@
 import AppDataSource from "../../data-source";
-import User from "../../entities/users.entitie";
+import User from "../../entities/users";
 import { IUserRequestUpdate } from "../../interfaces/users.interface";
 import { newUserSchemaRes } from "../../seriliazers/users.serializers";
 

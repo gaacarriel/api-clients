@@ -5,23 +5,23 @@ import {
     CreateDateColumn,
     ManyToOne,
 } from "typeorm";
-import User from "./users.entitie";
+import User from "./users";
 
 @Entity("contacts")
 class Contact {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({ length: 60, type: "character" })
+    @Column({ length: 60 })
     name: string;
 
-    @Column({ length: 60, unique: true, type: "character" })
+    @Column({ length: 60, unique: true })
     email: string;
 
-    @Column({ type: "character" })
+    @Column({ length: 60 })
     phone: string;
 
-    @CreateDateColumn({ type: "date" })
+    @CreateDateColumn({})
     created_at: Date;
 
     @ManyToOne(() => User, (user) => user.contacts, { onDelete: "CASCADE" })

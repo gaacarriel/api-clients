@@ -1,5 +1,5 @@
 import AppDataSource from "../../data-source";
-import Contact from "../../entities/contacts.entitie";
+import Contact from "../../entities/contacts";
 
 const deleteContactService = async (contactId: string): Promise<{}> => {
     const contactRepository = AppDataSource.getRepository(Contact);

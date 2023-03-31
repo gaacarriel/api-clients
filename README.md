@@ -2,8 +2,10 @@
 
 <br>
 
-Uma API REST de gerenciamento de contatos, onde você se cadastra, adiciona e administra seus contatos!
+Para utilizar esta API em ambiente de desenvolvimento, siga os seguintes passos
 
 <br>
 
-Consulte nossa documentação em: http://localhost:3000/docs
+<h3>Instalando as dependencias do projeto:</h3>
+
+Consulte nossa documentação em: http://localhost:3001/docs

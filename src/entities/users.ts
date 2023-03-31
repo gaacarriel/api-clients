@@ -5,32 +5,32 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     BeforeInsert,
-    OneToMany
+    OneToMany,
 } from "typeorm";
-import Contact from "./contacts.entitie";
+import Contact from "./contacts";
 
 @Entity("users")
 class User {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({ length: 60,  type: "character"})
+    @Column({ length: 60 })
     name: string;
 
-    @Column({ length: 60, unique: true, type: "character"})
+    @Column({ length: 60, unique: true })
     email: string;
 
-    @Column({type: "character"})
+    @Column({ length: 60 })
     password: string;
 
-    @Column({type: "character"})
+    @Column({ length: 60 })
     phone: string;
 
-    @CreateDateColumn({type: "date"})
+    @CreateDateColumn({})
     created_at: Date;
 
     @OneToMany(() => Contact, (contact) => contact.user)
-    contacts: Contact[]
+    contacts: Contact[];
 
     @BeforeInsert()
     hashPassword() {
