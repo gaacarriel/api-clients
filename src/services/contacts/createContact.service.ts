@@ -3,6 +3,7 @@ import Contact from "../../entities/contacts";
 import User from "../../entities/users";
 import AppError from "../../errors/AppError";
 import { IContactReq } from "../../interfaces/contacts.interface";
+import { newConcactSchemaRes } from "../../seriliazers/contacts.serializers";
 
 const createContactService = async (
     body: IContactReq,
@@ -31,7 +32,11 @@ const createContactService = async (
     });
     await contactRepository.save(newContact);
 
-    return newContact;
+    const contactValidated = await newConcactSchemaRes.validate(newContact, {
+        stripUnknown: true,
+    });
+
+    return contactValidated;
 };
 
 export default createContactService;
