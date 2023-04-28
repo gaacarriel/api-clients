@@ -7,9 +7,11 @@ import handleError from "./errors/handleError";
 import contactRoutes from "./routes/contacts.routes";
 import SwaggerUi from "swagger-ui-express";
 import swaggerDocs from "./swagger.json";
+import cors from "cors"
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 app.use("/users", userRoutes);
 app.use("/login", loginRoutes);
